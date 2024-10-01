@@ -1,6 +1,7 @@
 #include <iostream>
 #include <set>
 #include <algorithm>
+#include <cstring>
 #define LEFT    0
 #define RIGHT    1
 #define EMPTY    -1
@@ -16,9 +17,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    for (int i = 0; i <= 250001; i++) {
-        fill(tree[i], tree[i] + 2, EMPTY);
-    }
+    memset(tree, EMPTY, sizeof(int) * 250002 * 2);
 
     cin >> N;
     s.insert(250001);
