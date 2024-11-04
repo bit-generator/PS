@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-constexpr int MAX_SIZE = 10'000'000;
+constexpr int MAX_SIZE = 1'100'000;
 constexpr bool NOT_PRIME = true;
 int N, ans;
 int arr[1000001];
