@@ -7,7 +7,7 @@ using namespace std;
 int N, E;
 long long ans;
 vector<tuple<int, int, int>> v;
-int parent[1001];
+int parent[1001], urank[1001];
 
 int find(int x) {
     if(x == parent[x]) return x;
@@ -17,7 +17,9 @@ int find(int x) {
 void Union(int a, int b) {
     a = find(a);
     b = find(b);
-    if(a < b) parent[b] = a;
+    
+    if(urank[a] == urank[b]) urank[a]++;
+    if(urank[a] > urank[b]) parent[b] = a;
     else parent[a] = b;
 }
 
