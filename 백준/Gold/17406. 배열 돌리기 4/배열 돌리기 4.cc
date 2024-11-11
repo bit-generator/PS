@@ -26,9 +26,7 @@ void rotate(int idx) {
         for (int i = col - os; i <= col + os - 1; i++) {
             board[row + os][i] = board[row + os][i + 1];
         }
-        //memcpy(&board[row - os][col - os + 1], &board[row - os][col - os], sizeof(int) * (os * 2));
-       // memcpy(&board[row + os][col - os], &board[row + os][col - os + 1], sizeof(int) * (os * 2));
-
+        
         for (int i = row - os; i <= row + os - 2; i++) {
             board[i][col - os] = board[i + 1][col - os];
         }
