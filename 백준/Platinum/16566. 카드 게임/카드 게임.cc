@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
 int N, M, K, A;
-int cards[4000000];
-int parent[4000000];
+bool isExist[4000001];
+int parent[4000001];
+vector<int> cards;
 
 int find(int x) {
     if(x == parent[x]) return x;
@@ -17,16 +19,18 @@ int main() {
     
     cin >> N >> M >> K;
     for(int i = 0; i < M; i++) {
-        cin >> cards[i];
+        cin >> A;
+        isExist[A] = true;
     }
-    sort(cards, cards + M);
-    for(int i = 0; i < M; i++) {
+    
+    for(int i = 1; i <= N; i++) {
+        if(isExist[i]) cards.push_back(i);
         parent[i] = i;
     }
     
     while(K--) {
         cin >> A;
-        int idx = upper_bound(cards, cards + M, A) - cards;
+        int idx = upper_bound(cards.begin(), cards.end(), A) - cards.begin();
         int trueIdx = find(idx);
         cout << cards[trueIdx] << '\n';
         parent[trueIdx] = trueIdx + 1;
