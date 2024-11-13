@@ -11,15 +11,6 @@ int find(int x) {
     return x = find(parent[x]);
 }
 
-void Union(int a, int b) {
-    a = find(a);
-    b = find(b);
-    if(a == b) return;
-    
-    if(a < b) parent[a] = b;
-    else parent[b] = a;
-}
-
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -27,7 +18,6 @@ int main() {
     cin >> N >> M >> K;
     for(int i = 0; i < M; i++) {
         cin >> cards[i];
-        parent[cards[i]] = cards[i];
     }
     sort(cards, cards + M);
     for(int i = 0; i < M; i++) {
@@ -39,7 +29,7 @@ int main() {
         int idx = upper_bound(cards, cards + M, A) - cards;
         int trueIdx = find(idx);
         cout << cards[trueIdx] << '\n';
-        if(trueIdx != M - 1) Union(trueIdx, trueIdx + 1);
+        parent[trueIdx] = trueIdx + 1;
     }
     
     return 0;
