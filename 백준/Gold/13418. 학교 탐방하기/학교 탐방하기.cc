@@ -11,7 +11,7 @@ int parent[1001], urank[1001];
 
 int find(int x) {
     if(x == parent[x]) return x;
-    else return x = find(parent[x]);
+    else return parent[x] = find(parent[x]);
 }
 
 void Union(int a, int b) {
