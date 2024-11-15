@@ -1,13 +1,11 @@
 #include <iostream>
 #include <algorithm>
-#include <queue>
-#include <utility>
 #include <tuple>
 using namespace std;
 
 int N, C, M, U, V, W, ans;
-tuple<int, int, int> arr[10001];
-queue<pair<int, int>> q;
+tuple<int, int, int> arr[10000];
+int capacity[2001];
 
 int main() {
     ios::sync_with_stdio(false);
@@ -20,30 +18,22 @@ int main() {
     }
 
     sort(arr, arr + M);
+    fill(capacity, capacity + N + 1, C);
 
-    int idx = 0;
-    int load = 0, leftover = 0;
-
-    for (int cur = 1; cur <= N; ++cur) {
-        while (!q.empty() && q.front().first <= cur) {
-            ans += q.front().second;
-            load -= q.front().second;
-            q.pop();
+    for(int i = 0; i < M; i++) {
+        int U, V, W;
+        tie(V, U, W) = arr[i];
+        
+        int val = W;
+        for(int j = U; j < V; j++) {
+            val = min(val, capacity[j]);
         }
-
-        while (get<1>(arr[idx]) < cur) ++idx;
-		while (idx < M && load < C) {
-			if (load + get<2>(arr[idx]) <= C) {
-				load += get<2>(arr[idx]);
-				q.emplace(get<0>(arr[idx]), get<2>(arr[idx]));
-				++idx;
-			}
-			else {
-				get<2>(arr[idx]) = load + get<2>(arr[idx]) - C;
-				q.emplace(get<0>(arr[idx]), C - load);
-				load = C;
-			}
-		}
+        
+        for(int j = U; j < V; j++) {
+            capacity[j] -= val;
+        }
+        
+        ans += val;
     }
 
     cout << ans;
