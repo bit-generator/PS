@@ -4,10 +4,11 @@
 #include <utility>
 #include <algorithm>
 using namespace std;
-using Pair = pair<int, int>;
+using Pair = pair<long long, int>;
 
 constexpr long long INF = (long long)92e17;
-int N, M, A, B, C, u, v, w, ans = -1;
+int N, M, A, B, u, v, w, ans = -1;
+long long C;
 vector<pair<int, int>> graph[100001];
 long long dist[100001];
 
@@ -18,14 +19,14 @@ void dijkstra(int target) {
     pq.emplace(0, A);
     
     while(!pq.empty()) {
-        int cost = pq.top().first;
+        long long cost = pq.top().first;
         int cur = pq.top().second;
         pq.pop();
         if(dist[cur] < cost) continue;
         
         for(auto p : graph[cur]) {
             int nxt = p.first;
-            int ncost = p.second + cost;
+            long long ncost = p.second + cost;
             if(p.second > target || ncost > C) continue;
             
             if(ncost < dist[nxt]) {
