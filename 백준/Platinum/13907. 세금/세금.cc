@@ -10,14 +10,16 @@ constexpr long long INF = 1'000'000'000'000'000'000;
 int N, M, K, S, D, a, b, w, p;
 long long ans = INF;
 vector<pair<int, int>> graph[1001];
-long long dist[1001][1000];
+long long dist[1001];
+long long pathCnt[1001];
+long long dp[1000];
 
 void dijkstra() {
     priority_queue<Tuple, vector<Tuple>, greater<>> pq;
-    for (int i = 1; i <= N; ++i) {
-        fill(dist[i], dist[i] + 1000, INF);
-    }
-    dist[S][0] = 0;
+    fill(dist, dist + 1001, INF);
+    fill(pathCnt, pathCnt + 1001, INF);
+    fill(dp, dp + 1000, INF);
+    dist[S] = 0;
     pq.emplace(0, 0, S);
 
     while (!pq.empty()) {
@@ -26,17 +28,24 @@ void dijkstra() {
         tie(cost, cnt, cur) = pq.top();
         pq.pop();
 
-        if (dist[cur][cnt] < cost) continue;
+        if (cost < dist[cur] || cnt < pathCnt[cur]) {
+            dist[cur] = cost;
+            pathCnt[cur] = cnt;
 
-        for (auto pr : graph[cur]) {
-            int nxt = pr.first;
-            long long ncost = pr.second + cost;
-            int ncnt = cnt + 1;
-            if(ncnt >= 1000) continue;
+            if (cur == D) {
+                dp[cnt] = min(dp[cnt], cost);
+                continue;
+            }
 
-            if (ncost < dist[nxt][ncnt]) {
-                dist[nxt][ncnt] = ncost;
-                pq.emplace(ncost, ncnt, nxt);
+            for (auto pr : graph[cur]) {
+                int nxt = pr.first;
+                long long ncost = pr.second + cost;
+                int ncnt = cnt + 1;
+                if (ncnt >= 1000) continue;
+
+                if (ncost < dist[nxt] || ncnt < pathCnt[nxt]) {
+                    pq.emplace(ncost, ncnt, nxt);
+                }
             }
         }
     }
@@ -56,15 +65,17 @@ int main() {
     dijkstra();
 
     for (int i = 0; i < N; ++i) {
-        if (dist[D][i] < ans) ans = dist[D][i];
+        if (dp[i] != INF && dp[i] < ans) ans = dp[i];
     }
     cout << ans << '\n';
 
     for (int i = 1; i <= K; ++i) {
         cin >> p;
         ans = INF;
-        for (int j = 1; j < N; ++j) dist[D][j] += j * p;
-        for (int j = 0; j < N; ++j) if (dist[D][j] < ans) ans = dist[D][j];
+        for (int j = 1; j < N; ++j) {
+            if (dp[j] == INF) continue;
+            if((dp[j] += j * p) < ans) ans = dp[j];
+        }
         cout << ans << '\n';
     }
 
