@@ -21,6 +21,8 @@ void dijkstra() {
         int cur = pq.top().second;
         pq.pop();
         
+        if(dist[cur].top() < cost) continue;
+        
         for(auto p : graph[cur]) {
             int nxt = p.first;
             int ncost = cost + p.second;
