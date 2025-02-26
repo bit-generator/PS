@@ -18,12 +18,12 @@ void dijkstra() {
         fill(dist[i], dist[i] + 1000, INF);
     }
     dist[S][0] = 0;
-    pq.emplace(0, S, 0);
+    pq.emplace(0, 0, S);
 
     while (!pq.empty()) {
         long long cost;
         int cur, cnt;
-        tie(cost, cur, cnt) = pq.top();
+        tie(cost, cnt, cur) = pq.top();
         pq.pop();
 
         if (dist[cur][cnt] < cost) continue;
@@ -36,7 +36,7 @@ void dijkstra() {
 
             if (ncost < dist[nxt][ncnt]) {
                 dist[nxt][ncnt] = ncost;
-                pq.emplace(ncost, nxt, ncnt);
+                pq.emplace(ncost, ncnt, nxt);
             }
         }
     }
