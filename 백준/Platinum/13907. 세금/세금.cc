@@ -41,7 +41,6 @@ void dijkstra() {
                 int nxt = pr.first;
                 long long ncost = pr.second + cost;
                 int ncnt = cnt + 1;
-                if (ncnt >= 1000) continue;
 
                 if (ncost < dist[nxt] || ncnt < pathCnt[nxt]) {
                     pq.emplace(ncost, ncnt, nxt);
