@@ -3,14 +3,15 @@
 #include <vector>
 #include <algorithm>
 #include <tuple>
-#define INF    21e8
+#define INF    10e18
 using namespace std;
-using Tuple = tuple<int, int, int>;
+using Tuple = tuple<long long, int, int>;
 
-int N, M, a, b, c, ans = INF;
+int N, M, a, b, c;
+long long ans = INF;
 int price[2501];
 vector<pair<int, int>> graph[2501];
-int dist[2501][2501];
+long long dist[2501][2501];
 
 void dijkstra() {
     priority_queue<Tuple, vector<Tuple>, greater<>> pq;
@@ -21,7 +22,8 @@ void dijkstra() {
     dist[1][1] = 0;
 
     while (!pq.empty()) {
-        int cur, ref, cost;
+        int cur, ref;
+        long long cost;
         tie(cost, cur, ref) = pq.top();
         pq.pop();
 
@@ -30,7 +32,7 @@ void dijkstra() {
 
         for (const auto& p : graph[cur]) {
             int nxt = p.first;
-            int ncost = p.second * price[ref] + cost;
+            long long ncost = p.second * price[ref] + cost;
 
             if (ncost < dist[nxt][ref]) {
                 dist[nxt][ref] = ncost;
