@@ -14,7 +14,7 @@ struct Node {
 } nodepool[MAX_SIZE];
 
 int nodeCnt;
-unordered_map<int, Node*> stn;
+Node* stn[1'000'001];
 
 Node* makeNode(int id) {
     nodepool[nodeCnt].id = id;
