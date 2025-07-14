@@ -2,26 +2,9 @@
 #include <algorithm>
 using namespace std;
 
-int N, r, c;
+int N;
 int arr[501];
 int dp[501][501];
-
-int solve(int st, int en) {
-    if(en - st <= 1) return 0;
-    if(en - st == 2) {
-        return dp[st][en] = arr[st] * arr[st + 1] * arr[en];
-    }
-    
-    if(dp[st][en]) return dp[st][en];
-    
-    int cnt = 0x7FFFFFFF;
-    for(int i = st + 1; i < en; ++i) {
-        int tmp = solve(st, i) + solve(i, en) + arr[st] * arr[i] * arr[en];
-        cnt = min(cnt, tmp);
-    }
-    
-    return dp[st][en] = cnt;
-}
 
 int main() {
     ios::sync_with_stdio(false);
@@ -32,6 +15,17 @@ int main() {
         cin >> arr[i] >> arr[i + 1];
     }
     
-    cout << solve(0, N);
+    for(int len = 2; len <= N; ++len) {
+        for(int i = 0; i <= N - len; ++i) {
+            dp[i][i + len] = 0x7FFFFFFF;
+            
+            for(int j = i + 1; j < i + len; ++j) {
+                int tmp = dp[i][j] + dp[j][i + len] + arr[i] * arr[j] * arr[i + len];
+                dp[i][i + len] = min(dp[i][i + len], tmp);
+            }
+        }
+    }
+    
+    cout << dp[0][N];
     return 0;
 }
