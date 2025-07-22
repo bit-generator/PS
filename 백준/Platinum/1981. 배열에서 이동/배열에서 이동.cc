@@ -8,7 +8,6 @@ using namespace std;
 int n, mx, mn = 200, ans;
 int board[100][100];
 bool visit[100][100];
-bool check[201];
 int dx[] = {1, 0, -1, 0};
 int dy[] = {0, 1, 0, -1};
 
@@ -65,7 +64,6 @@ int main() {
             cin >> board[i][j];
             mx = max(mx, board[i][j]);
             mn = min(mn, board[i][j]);
-            check[board[i][j]] = true;
         }
     }
     
