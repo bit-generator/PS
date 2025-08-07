@@ -23,6 +23,7 @@ void dijkstra() {
         tie(cdist, cost, cur) = pq.top();
         pq.pop();
         
+        if(cur == N) break;
         if(dist[cur][cost] < cdist) continue;
         
         for(const auto& tp : graph[cur]) {
