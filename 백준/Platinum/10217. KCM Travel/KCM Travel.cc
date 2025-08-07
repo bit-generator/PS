@@ -6,7 +6,7 @@
 using namespace std;
 using Tuple = tuple<int, int, int>;
 
-int T, N, M, K, u, v, c, d, ans = INF;
+int T, N, M, K, u, v, c, d;
 vector<Tuple> graph[101];
 int dist[101][10001];
 
@@ -62,12 +62,9 @@ int main() {
         }
         
         dijkstra();
-        for(int i = 0; i <= 10000; ++i) {
-            ans = min(ans, dist[N][i]);
-        }
         
-        if(ans == INF) cout << "Poor KCM";
-        else cout << ans;
+        if(dist[N][M] == INF) cout << "Poor KCM";
+        else cout << dist[N][M];
     }
     
     return 0;
