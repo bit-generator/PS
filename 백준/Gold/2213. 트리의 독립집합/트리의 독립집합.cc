@@ -15,13 +15,7 @@ void dfs(int cur, int prv) {
         if(nxt == prv) continue;
         dfs(nxt, cur);
         
-        if(dp[nxt][0] < dp[nxt][1]) {
-            dp[cur][0] += dp[nxt][1];
-        }
-        else {
-            dp[cur][0] += dp[nxt][0];
-        }
-        
+        dp[cur][0] += max(dp[nxt][0], dp[nxt][1]);
         dp[cur][1] += dp[nxt][0];
     }
     
