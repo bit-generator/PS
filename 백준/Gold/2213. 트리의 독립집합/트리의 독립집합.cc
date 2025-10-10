@@ -7,7 +7,8 @@ int n, a, b;
 vector<int> graph[10001];
 int w[10001];
 int dp[10001][2];
-vector<int> path[10001][2];
+vector<int> path;
+bool check[10001];
 
 void dfs(int cur, int prv) {
     for(int nxt : graph[cur]) {
@@ -16,19 +17,27 @@ void dfs(int cur, int prv) {
         
         if(dp[nxt][0] < dp[nxt][1]) {
             dp[cur][0] += dp[nxt][1];
-            path[cur][0].insert(path[cur][0].end(), path[nxt][1].begin(), path[nxt][1].end());
         }
         else {
             dp[cur][0] += dp[nxt][0];
-            path[cur][0].insert(path[cur][0].end(), path[nxt][0].begin(), path[nxt][0].end());
         }
         
         dp[cur][1] += dp[nxt][0];
-        path[cur][1].insert(path[cur][1].end(), path[nxt][0].begin(), path[nxt][0].end());
     }
     
     dp[cur][1] += w[cur];
-    path[cur][1].push_back(cur);
+}
+
+void getPath(int cur, int prv) {
+    if(dp[cur][0] < dp[cur][1] && !check[prv]) {
+        path.push_back(cur);
+        check[cur] = true;
+    }
+    
+    for(int nxt : graph[cur]) {
+        if(nxt == prv) continue;
+        getPath(nxt, cur);
+    }
 }
 
 int main() {
@@ -44,15 +53,10 @@ int main() {
     }
     
     dfs(1, 0);
-    if(dp[1][0] < dp[1][1]) {
-        cout << dp[1][1] << '\n';
-        sort(path[1][1].begin(), path[1][1].end());
-        for(int i : path[1][1]) cout << i << ' ';
-    }
-    else {
-        cout << dp[1][0] << '\n';
-        sort(path[1][0].begin(), path[1][0].end());
-        for(int i : path[1][0]) cout << i << ' ';
-    }
+    getPath(1, 0);
+    sort(path.begin(), path.end());
+    
+    cout << max(dp[1][0], dp[1][1]) << '\n';
+    for(int i : path) cout << i << ' ';
     return 0;
 }
