@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-int N, L, H, ans;
+int N, ans;
 pair<int, int> arr[1000];
 
 int main() {
