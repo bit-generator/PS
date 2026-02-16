@@ -12,7 +12,7 @@ vector<unordered_map<int, int>> graph(100001), newgraph(100001);
 bool visit[100001], isLeaf[100001];
 priority_queue<int, vector<int>, greater<>> pq[2][2];
 
-void bfs(vumii& grp, vumii& newgrp, int src, int idx) {
+void bfs(int src, int idx) {
     queue<int> q;
     q.push(src);
     visit[src] = true;
@@ -23,7 +23,7 @@ void bfs(vumii& grp, vumii& newgrp, int src, int idx) {
         q.pop();
         int cnt = 0;
         
-        for(const auto& p : grp[cur]) {
+        for(const auto& p : graph[cur]) {
             int nxt = p.first;
             int edge = p.second;
             if(visit[nxt]) continue;
@@ -33,11 +33,34 @@ void bfs(vumii& grp, vumii& newgrp, int src, int idx) {
             ++cnt;
             pq[idx][0].push(nxt);
             pq[idx][1].push(edge);
-            newgrp[cur][nxt] = edge;
-            newgrp[nxt][cur] = edge;
+            newgraph[cur][nxt] = edge;
+            newgraph[nxt][cur] = edge;
         }
         
         if(!cnt) isLeaf[cur] = true;
+    }
+}
+
+void bfs2(int src, int idx) {
+    queue<int> q;
+    q.push(src);
+    visit[src] = true;
+    pq[idx][0].push(src);
+    
+    while(!q.empty()) {
+        int cur = q.front();
+        q.pop();
+        
+        for(const auto& p : newgraph[cur]) {
+            int nxt = p.first;
+            int edge = p.second;
+            if(visit[nxt]) continue;
+            
+            q.push(nxt);
+            visit[nxt] = true;
+            pq[idx][0].push(nxt);
+            pq[idx][1].push(edge);
+        }
     }
 }
 
@@ -64,7 +87,7 @@ int main() {
             return 0;
         }
         
-        bfs(graph, newgraph, i, treeCnt++);
+        bfs(i, treeCnt++);
     }
     
     if(treeCnt == 2 && pq[0][0].size() == pq[1][0].size()) {
@@ -81,8 +104,7 @@ int main() {
                 while(!pq[0][0].empty()) pq[0][0].pop();
                 while(!pq[0][1].empty()) pq[0][1].pop();
                 memset(visit, 0, sizeof(visit));
-                bfs(newgraph, graph, i, 0);
-                bfs(newgraph, graph, node, 1);
+                bfs2(i, 0); bfs2(node, 1);
                 break;
             }
         }
