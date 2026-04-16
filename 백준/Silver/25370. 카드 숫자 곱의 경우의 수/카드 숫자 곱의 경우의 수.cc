@@ -18,6 +18,9 @@ void backtrack(int cnt) {
     }
     
     for(int i = 1; i <= 9; ++i) {
+        if(cnt > 0 && arr[cnt - 1] > i)
+            continue;
+        
         arr[cnt] = i;
         backtrack(cnt + 1);
     }
