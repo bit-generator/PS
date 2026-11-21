@@ -48,7 +48,7 @@ int main() {
         cin >> s;
         for(char c : s) {
             int idx = c - 'a';
-            if((bits[i] & (1 << idx)) == 0 && (basebit & (1 << idx)) == 0) {
+            if((basebit & (1 << idx)) == 0) {
                 bits[i] |= (1 << idx);
                 totalbit |= (1 << idx);
             }
