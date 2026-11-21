@@ -5,7 +5,7 @@ using namespace std;
 
 int N, K, ans;
 string s[50];
-int bits[50][2];
+int bits[50];
 int basebit = 1 | (1 << ('c' - 'a')) | (1 << ('i' - 'a'))
         | (1 << ('n' - 'a')) | (1 << ('t' - 'a'));
 int totalbit, cmbbit;
@@ -22,7 +22,7 @@ void backtrack(int idx, int st) {
     if(idx == K - 5) {
         int cnt = 0;
         for(int i = 0; i < N; ++i) {
-            if(countbit(bits[i][0] & cmbbit) == bits[i][1])
+            if((bits[i] & cmbbit) == bits[i])
                 ++cnt;
         }
         
@@ -55,10 +55,9 @@ int main() {
     for(int i = 0; i < N; ++i) {
         for(char c : s[i]) {
             int idx = c - 'a';
-            if((bits[i][0] & (1 << idx)) == 0 && (basebit & (1 << idx)) == 0) {
-                bits[i][0] |= (1 << idx);
+            if((bits[i] & (1 << idx)) == 0 && (basebit & (1 << idx)) == 0) {
+                bits[i] |= (1 << idx);
                 totalbit |= (1 << idx);
-                ++bits[i][1];
             }
         }
     }
